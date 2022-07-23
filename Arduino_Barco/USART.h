@@ -4,7 +4,6 @@
 #include "def_principais.h"
 
 #define BAUD 	115200		//taxa de 9600 bps
-//#define BAUD 	38400		//taxa de 9600 bps
 #define MYUBRR	F_CPU/16/BAUD-1
 
 #define tam_vetor	5	//n�mero de digitos individuais para a convers�o por ident_num()	 

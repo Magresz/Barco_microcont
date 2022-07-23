@@ -2,7 +2,7 @@
 
 int player = 1;
 int battery = 0;
-int cross, square, left_trigger, right_trigger, rumble;
+int cross, square, left_trigger, right_trigger;
 
 
 void notify()
@@ -39,11 +39,10 @@ void setup()
 }
 
 void loop()
-{
-
-  
+{ 
   if(!Ps3.isConnected())
   return;
+
   delay(70);
   Serial.write(cross);
   Serial.write(square);
@@ -52,11 +51,5 @@ void loop()
 
   Serial.write(Ps3.data.analog.button.l2 /2);
   Serial.write(Ps3.data.analog.button.r2 /2);
-    
-  rumble = Serial.read();
-
-  /*if(rumble>0){
-  Ps3.setRumble(rumble);
-  }*/
 
 }
