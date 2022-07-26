@@ -2,24 +2,68 @@
 
 int player = 1;
 int battery = 0;
-int cross, square, left_trigger, right_trigger;
+int left_trigger, right_trigger, rumble, press_but;
+
 
 void notify()
 {
-  //--- Digital cross/square/triangle/circle button events ---
-  if (Ps3.event.button_down.cross)
-  {
-    cross = 1;
-  }
-  if (Ps3.event.button_up.cross)
-    cross = 0;
+  //--- Digital cross ---
 
-  if (Ps3.event.button_down.square)
+  if (Ps3.event.button_down.cross)  //Modo controle
   {
-    square = 1;
+    press_but = 1;
   }
-  if (Ps3.event.button_up.square)
-    square = 0;
+  if (Ps3.event.button_up.cross) 
+    press_but = 0;
+
+  //--- Digital Square ---
+
+  if (Ps3.event.button_down.square) //Modo autônomo
+  {
+    press_but = 2;
+  }
+  if (Ps3.event.button_up.square){
+    press_but = 0;
+  }
+  //--- Digital circle ---
+
+  if (Ps3.event.button_down.circle) //Modo autônomo
+  {
+    press_but = 3;
+  }
+  if (Ps3.event.button_up.circle){
+    press_but = 0;
+  }
+
+  //--- Digital pad up ---
+  if (Ps3.event.button_down.up)  //Servo frente
+  {
+    press_but = 4;
+  }
+  if (Ps3.event.button_up.up){ 
+    press_but = 0;
+  }
+
+  //--- Digital pad left ---
+
+  if (Ps3.event.button_down.left)  //Servo esquerda
+  {
+    press_but = 5;
+  }
+  if (Ps3.event.button_up.left){ 
+    press_but = 0;
+  }
+
+  //--- Digital pad right ---
+
+  if (Ps3.event.button_down.right)  //Servo direita
+  {
+    press_but = 6;
+  }
+  if (Ps3.event.button_up.right){ 
+    press_but = 0;
+  }
+
 }
 
 void onConnect()
@@ -35,7 +79,7 @@ void setup()
   Ps3.attachOnConnect(onConnect);
   Ps3.begin("01:02:03:04:05:06");
 
-  Serial.println("Ready.");
+  Serial.println("Conectado.");
 
   //-------------------- Player LEDs -------------------
   Ps3.setPlayer(player);
@@ -43,14 +87,15 @@ void setup()
 
 void loop()
 {
-  if (!Ps3.isConnected())
-    return;
+  if (!Ps3.isConnected()) 
+  return;
 
   delay(70);
-  Serial.write(cross);
-  Serial.write(square);
+  //---------- Botões digitais ----------
+  
+  Serial.write(press_but);
 
-  //---------- Analog shoulder/trigger button events ----------
+  //---------- Triggers ----------
 
   Serial.write(Ps3.data.analog.button.l2 / 2);
   Serial.write(Ps3.data.analog.button.r2 / 2);
